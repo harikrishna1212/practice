@@ -1,1 +1,2 @@
 print("Hari");
+print("Bala");
