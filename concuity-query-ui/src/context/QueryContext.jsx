@@ -1,0 +1,53 @@
+import { createContext, useContext, useState, useCallback } from 'react';
+import * as queryService from '../services/queryService';
+
+const QueryContext = createContext(null);
+
+export function QueryProvider({ children }) {
+  const [queries, setQueries] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchQueries = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      setQueries(await queryService.getQueries());
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const createQuery = useCallback(async (payload, options) => {
+    const created = await queryService.createQuery(payload, options);
+    setQueries((prev) => [...prev, created]);
+    return created;
+  }, []);
+
+  const softDeleteQueries = useCallback(async (ids) => {
+    await queryService.softDeleteQueries(ids);
+    const idSet = new Set(ids);
+    setQueries((prev) => prev.filter((q) => !idSet.has(q.id)));
+  }, []);
+
+  const value = {
+    queries,
+    loading,
+    error,
+    fetchQueries,
+    createQuery,
+    softDeleteQueries,
+  };
+
+  return (
+    <QueryContext.Provider value={value}>{children}</QueryContext.Provider>
+  );
+}
+
+export function useQueries() {
+  const ctx = useContext(QueryContext);
+  if (!ctx) throw new Error('useQueries must be used within QueryProvider');
+  return ctx;
+}
