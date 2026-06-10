@@ -20,6 +20,37 @@ export function QueryProvider({ children }) {
     }
   }, []);
 
+  const fetchAdminQueries = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      setQueries(await queryService.getAdminQueries());
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const replaceInList = useCallback((updated) => {
+    setQueries((prev) => prev.map((q) => (q.id === updated.id ? updated : q)));
+  }, []);
+
+  const approveQuery = useCallback(
+    async (id, notes) => replaceInList(await queryService.approveQuery(id, notes)),
+    [replaceInList]
+  );
+
+  const rejectQuery = useCallback(
+    async (id, notes) => replaceInList(await queryService.rejectQuery(id, notes)),
+    [replaceInList]
+  );
+
+  const disableQuery = useCallback(
+    async (id, notes) => replaceInList(await queryService.disableQuery(id, notes)),
+    [replaceInList]
+  );
+
   const createQuery = useCallback(async (payload, options) => {
     const created = await queryService.createQuery(payload, options);
     setQueries((prev) => [...prev, created]);
@@ -37,8 +68,12 @@ export function QueryProvider({ children }) {
     loading,
     error,
     fetchQueries,
+    fetchAdminQueries,
     createQuery,
     softDeleteQueries,
+    approveQuery,
+    rejectQuery,
+    disableQuery,
   };
 
   return (

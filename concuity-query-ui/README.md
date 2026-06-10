@@ -38,5 +38,5 @@ Demo accounts (mock login, `src/fixtures/users.js`):
 | 1 — User: Query List | ✅ Built (search, sort, soft delete) |
 | 2 — User: Create/Submit Query | ✅ Built (param parsing, draft/submit, post-submit actions) |
 | 3 — User: Query Detail | ⏳ Pending |
-| 4 — Admin: Approval Queue | ⏳ Pending (placeholder route exists) |
-| 5 — Admin: Approval Detail | ⏳ Pending |
+| 4 — Admin: Approval Queue | ✅ Built (search, sort, awaiting-first default order) |
+| 5 — Admin: Approval Detail | ✅ Built (approve/reject with notes, disable, Query ID display) |

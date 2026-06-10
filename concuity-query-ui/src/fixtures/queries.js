@@ -16,6 +16,7 @@ export const SEED_QUERIES = [
     expectedFrequency: 'Daily',
     status: 'Approved',
     version: 1,
+    uniqueQueryId: 100001,
     submittedBy: 'jdoe',
     dateSubmitted: '2026-05-20T10:15:00Z',
     dateResolved: '2026-05-21T09:00:00Z',

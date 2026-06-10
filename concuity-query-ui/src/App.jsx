@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import UserQueryListPage from './pages/user/UserQueryListPage';
 import CreateQueryPage from './pages/user/CreateQueryPage';
 import AdminQueryListPage from './pages/admin/AdminQueryListPage';
+import AdminQueryDetailPage from './pages/admin/AdminQueryDetailPage';
 
 function RequireRole({ role, children }) {
   const { user } = useAuth();
@@ -49,6 +50,14 @@ export default function App() {
           element={
             <RequireRole role={ROLES.ADMIN}>
               <AdminQueryListPage />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/admin/queries/:id"
+          element={
+            <RequireRole role={ROLES.ADMIN}>
+              <AdminQueryDetailPage />
             </RequireRole>
           }
         />

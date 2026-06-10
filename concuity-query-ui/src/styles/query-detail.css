@@ -1,0 +1,94 @@
+.detail-page {
+  max-width: 860px;
+}
+
+.detail-card {
+  background-color: #ffffff;
+  border: 1px solid #cbd2d9;
+  border-radius: 6px;
+  padding: 24px;
+}
+
+/* ---- Metadata grid ---- */
+.detail-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px 24px;
+  margin: 0 0 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e4e7eb;
+}
+
+.detail-meta dt {
+  font-size: 12px;
+  font-weight: 600;
+  color: #52606d;
+  text-transform: uppercase;
+}
+
+.detail-meta dd {
+  margin: 2px 0 0;
+}
+
+.unique-id {
+  font-weight: 700;
+  color: #1f3a5f;
+}
+
+/* ---- Sections ---- */
+.detail-section {
+  margin-bottom: 18px;
+}
+
+.detail-section h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #3e4c59;
+}
+
+.detail-section textarea {
+  width: 100%;
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid #9aa5b1;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.sql-block {
+  background-color: #f4f6f8;
+  border: 1px solid #e4e7eb;
+  border-radius: 4px;
+  padding: 12px;
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+
+/* ---- Actions ---- */
+.detail-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-approve {
+  background-color: #059669;
+  color: #ffffff;
+}
+
+.btn-approve:hover:not(:disabled) {
+  background-color: #047857;
+}
+
+.pending-count {
+  color: #92400e;
+  background-color: #fef3c7;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+}

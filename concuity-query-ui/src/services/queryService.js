@@ -68,6 +68,51 @@ export async function updateQuery(id, changes) {
   return delay(queries[index]);
 }
 
+// GET /admin/queries — submitted queries only; Drafts are not visible to
+// Admins (BRD assumption #5: the Admin status list excludes Draft).
+export async function getAdminQueries() {
+  return delay(
+    loadStore().filter((q) => !q.deleted && q.status !== QUERY_STATUS.DRAFT)
+  );
+}
+
+function resolveQuery(id, changes) {
+  const queries = loadStore();
+  const index = queries.findIndex((q) => q.id === Number(id));
+  if (index === -1) throw new Error(`Query ${id} was not found.`);
+  queries[index] = {
+    ...queries[index],
+    ...changes,
+    dateResolved: new Date().toISOString(),
+  };
+  saveStore(queries);
+  return queries[index];
+}
+
+// PUT /admin/query/{id}/approve — BRD: approval generates the unique numeric
+// Query ID used by callers (MicroAutomation) to execute the query.
+export async function approveQuery(id, notes) {
+  const queries = loadStore();
+  const maxUid = queries.reduce((max, q) => Math.max(max, q.uniqueQueryId || 100000), 100000);
+  return delay(
+    resolveQuery(id, {
+      status: QUERY_STATUS.APPROVED,
+      uniqueQueryId: maxUid + 1,
+      notes: notes || '',
+    })
+  );
+}
+
+// PUT /admin/query/{id}/reject
+export async function rejectQuery(id, notes) {
+  return delay(resolveQuery(id, { status: QUERY_STATUS.REJECTED, notes: notes || '' }));
+}
+
+// PUT /admin/query/{id}/disable
+export async function disableQuery(id, notes) {
+  return delay(resolveQuery(id, { status: QUERY_STATUS.DISABLED, notes: notes || '' }));
+}
+
 // DELETE /queries — BRD: soft delete only
 export async function softDeleteQueries(ids) {
   const idSet = new Set(ids.map(Number));
